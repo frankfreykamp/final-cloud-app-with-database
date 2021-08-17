@@ -132,3 +132,39 @@ class Enrollment(models.Model):
 #    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
 #    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
+
+class Question(models.Model):
+    """
+        - Has a One-To-Many relationship with Course model
+        - The question text content
+        - A grade point for the question
+    """
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    text_content = models.CharField(max_length=1000)
+    grade_point = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Question: {self.text_content}, Points: {self.grade_point}, Course: {self.course}"
+
+class Choice(models.Model):
+    """
+        - One-To-Many relationship with Question model
+        - The choice text content
+        - Indicate if this choice is a correct one or not
+    """
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text_content = models.CharField(max_length=1000)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Choice: {self.text_content}, Is correct: {self.is_correct}, Question: {self.question}"
+
+class Submission(models.Model):
+    """
+        class Submission as provided:
+        - One-to-Many relationship with Enrollment, i.e., one course enrollment could have multiple exam submissions
+        - Many-to-Many relationship with choices or questions. For simplicity, it just relates the submission with
+        the Choice model
+    """
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
