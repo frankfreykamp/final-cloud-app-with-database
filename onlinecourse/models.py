@@ -144,7 +144,7 @@ class Question(models.Model):
     grade_point = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"Question: {self.text_content}, Points: {self.grade_point}, Course: {self.course}"
+        return f"Question: Text content: {self.text_content}, Points: {self.grade_point}, Course: {self.course}"
 
 class Choice(models.Model):
     """
@@ -157,7 +157,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Choice: {self.text_content}, Is correct: {self.is_correct}, Question: {self.question}"
+        return f"Choice: Text content: {self.text_content}, Is correct: {self.is_correct}, Question: {self.question}"
 
 class Submission(models.Model):
     """
@@ -168,3 +168,6 @@ class Submission(models.Model):
     """
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
+
+    def __str__(self):
+        return f"Submission: Enrollment: {self.enrollment}, Choices: {self.choices}"
